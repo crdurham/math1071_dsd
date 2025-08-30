@@ -1,6 +1,6 @@
 .venv/
 __pycache__/
 *.pyc
-data/
+
 icecream.csv
 Seasonal Stats - Season Stats.csv
