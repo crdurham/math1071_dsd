@@ -36,7 +36,7 @@ if "comments_df" not in st.session_state:
 st.sidebar.markdown("### Instructor Access")
 
 password = st.sidebar.text_input("Enter password:", type="password")
-INSTRUCTOR_PASSWORD = "3.1415926535//10_71?$teaching*&isn't@fun"
+INSTRUCTOR_PASSWORD = st.secrets["INSTRUCTOR_PASS"]
 
 if password == INSTRUCTOR_PASSWORD:
     st.sidebar.success("Welcome, Cole.")
