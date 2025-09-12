@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import statsmodels.api as sm
+import statsmodels.api as sm # type: ignore
 
 
 def lin_reg(X, y):
