@@ -4,3 +4,5 @@ __pycache__/
 
 icecream.csv
 Seasonal Stats - Season Stats.csv
+
+.streamlit/secrets.toml
