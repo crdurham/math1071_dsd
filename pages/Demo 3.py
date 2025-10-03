@@ -220,8 +220,7 @@ st.markdown(f"""
             for our purposes. In theory, we can choose from any function
             or {highlight("parametric model")} (and a wide array of {highlight("non-parametric models")}
             exists too, but we'll steer clear for now). One of our first jobs is to
-            determine which *type* of model will work best. See the Workflow Outline
-            for an overview.
+            determine which *type* of model will work best.
             """, unsafe_allow_html=True)
 
 st.markdown(f"""
