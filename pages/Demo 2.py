@@ -753,7 +753,8 @@ idea of *__cost minimization__* to determine the best model of
 revenue as a function of average book price and number of 
 weekly patrons.
 
-In the next demo(s) we 
+In the next demo(s) we will explore look at *model complexity*,
+*underfitting*, *overfitting*, and the *bias-variance tradeoff*.
 
 
 If you have any questions or comments, 
