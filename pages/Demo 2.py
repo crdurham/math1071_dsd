@@ -449,8 +449,8 @@ st.markdown(f"""
             In the above example, we computed the error and cost produced by two
             models on a single data point. To measure *__overall model performance__*
             on the entire dataset, we **{highlight("take the average cost over all data points")}**.
-            Denote the average cost by $J\left(\\frac{1}{80}, 100\\right)$ for Linear 
-            Model 1 and $$J\left(\\frac{13}{80}, -10\\right)$$ for Linear Model 2.
+            Denote the average cost by $J\left(\\frac{1}{{80}}, 100\\right)$ for Linear 
+            Model 1 and $$J\left(\\frac{{13}}{{80}}, -10\\right)$$ for Linear Model 2.
             """, unsafe_allow_html=True)
 st.latex(r"J\left(\frac{1}{80}, 100\right) = \frac{cost_1^{(1)}+cost_2^{(1)} + \cdots + cost_{50}^{(1)}}{50}")
 st.latex(r"J\left(\frac{13}{80}, -10\right) = \frac{cost_1^{(2)}+cost_2^{(2)} + \cdots + cost_{50}^{(2)}}{50}")
