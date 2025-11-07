@@ -60,29 +60,4 @@ elif password:
 
 
 st.markdown("#### Other Visuals and Interactives")
-st.write("More will be added over time!")
-
-
-st.markdown("""
-            1. ##### NYSE Closing Price Over Time
-            Enter two day/month/year combinations to see the market movement over that time frame.
-            """)
-
-with st.form(key="nyse_range"):
-    start_date = st.date_input("Start date", value=nyse.index.min().date(), min_value=nyse.index.min().date(),
-    max_value=nyse.index.max().date())
-    end_date = st.date_input("End date", value=nyse.index.max().date(),min_value=nyse.index.min().date(),
-    max_value=nyse.index.max().date())
-    submit = st.form_submit_button("Plot")
-
-    if submit:
-        if start_date > end_date:
-            st.error("Start date must be before end date")
-        else:
-            filtered = nyse.loc[start_date:end_date]
-            st.line_chart(filtered["Close"])
-    
-
-st.write("To see the numeric values from the above plot:")
-with st.expander("NYSE Data", expanded=False):
-    st.write(nyse[(nyse.index.date >= start_date) & (nyse.index.date<=end_date)])    
+st.write("Will be added over time!")
