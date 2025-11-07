@@ -387,14 +387,7 @@ st.markdown("""
             and choose the clusters which yielded the lowest cost.
             """)
 
-fantasy_rb_2020s = fantasy_football[(fantasy_football['FantPos']=='RB') & 
-                                   (fantasy_football['Year']>= 2020) &
-                                   (fantasy_football['Rushing_Att']>50) &
-                                   (fantasy_football['Receiving_Tgt'] > 50)][['Rushing_Att', 'Receiving_Tgt']]
 
-fig_rb, ax_rb = plt.subplots()
-ax_rb.scatter(fantasy_rb_2020s['Rushing_Att'], fantasy_rb_2020s['Receiving_Tgt'])
-st.pyplot(fig_rb)
 st.markdown("---") 
 st.markdown("### Looking Forward")
 st.markdown(
