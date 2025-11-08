@@ -8,26 +8,32 @@ from pathlib import Path
 from datetime import datetime
 from db import save_comment
 from utils import lin_reg
-import matplotlib.cm as cm
+from matplotlib import colormaps
+from matplotlib.colors import ListedColormap
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
 rng = np.random.default_rng(1)
-student_data = pd.read_csv("/Users/coledurham/Documents/UConn Teaching/MATH 1071, 2025/Data_Science_Demos/data/student_data.csv")
-fantasy_football = pd.read_csv("/Users/coledurham/Documents/UConn Teaching/MATH 1071, 2025/Data_Science_Demos/data/fantasy_data.csv")
+
 
 ROOT = Path(__file__).resolve().parent.parent
 HOUSING_DATA_FILE = ROOT / "data" / "Housing.csv"
+student_data_file = ROOT / "data" / "student_data.csv"
+ff_data_file = ROOT / "data" / "fantasy_data.csv"
+
+student_data = pd.read_csv(student_data_file)
+ff_data = pd.read_csv(ff_data_file)
 
 def draw_line(p1, p2, style="-k", linewidth=1.5):
     plt.plot([p1[0], p2[0]], [p1[1], p2[1]], style, linewidth=linewidth)
 
 def plot_data_points(X, idx):
-    # plots data points in X, coloring them so that those with the same
-    # index assignments in idx have the same color
+    """Plots data points, coloring them by cluster index."""
     K = len(np.unique(idx))
-    cmap = cm.get_cmap('Dark2', K)
-    plt.scatter(X[:, 0], X[:, 1], c=idx, cmap=cmap,s=45)
+    base_cmap = colormaps.get_cmap('Dark2')
+    cmap = ListedColormap(base_cmap(np.linspace(0, 1, K)))
+    
+    plt.scatter(X[:, 0], X[:, 1], c=idx, cmap=cmap, s=45)
     
 def plot_progress_kMeans(X, centroids, previous_centroids, idx, K, i):
     # Plot the examples
@@ -77,7 +83,7 @@ def find_new_centroids(X, idx, K):
         
     return new_centroids
     
-def Kmeans(X, initial_centroids, max_iters = 5, plot_progress = False):
+def Kmeans(X, initial_centroids, max_iters = 5, plot_progress = False, xlabel="X", ylabel="Y"):
     m, n = X.shape
     K = np.array(initial_centroids).shape[0]
     centroids = initial_centroids
@@ -91,8 +97,8 @@ def Kmeans(X, initial_centroids, max_iters = 5, plot_progress = False):
         if plot_progress:
             fig, ax = plt.subplots()
             plot_progress_kMeans(X, centroids, previous_centroids, idx, K, i+1)
-            ax.set_xlabel("Quiz Average")
-            ax.set_ylabel("WA Average")
+            ax.set_xlabel(xlabel=xlabel)
+            ax.set_ylabel(ylabel=ylabel)
             figs.append(fig)
             previous_centroids = centroids
         centroids = find_new_centroids(X, idx, K)
@@ -203,7 +209,7 @@ st.markdown("""
             ### 1. Unsupervised Learning
 
             In previous demos, all data presented came in the form of
-            input-output pairs $(x^{(1)},y^{(1)}),\ldots,(x^{(m)},y^{(m)})$. Recall, for instance:
+            input-output pairs $(x^{(1)},y^{(1)}),\\ldots,(x^{(m)},y^{(m)})$. Recall, for instance:
             - Demo 1: Input square footage, output house price
             - Demo 2: Input store information (patrons, expenditures), output
             total revenue
@@ -241,7 +247,7 @@ st.markdown(f"""
             linked with.
             3. Update the centroid by finding the *average location of data points assigned
             to it*. This is done simply by taking the average within each coordinate,
-            e.g. the average of $(1,2)$ and $(3,4)$ is $\left(\\frac{{1+3}}{{2}}, \\frac{{2+4}}{{2}} \\right)=(2,3)$.
+            e.g. the average of $(1,2)$ and $(3,4)$ is $\\left(\\frac{{1+3}}{{2}}, \\frac{{2+4}}{{2}} \\right)=(2,3)$.
             4. Repeat steps 2 and 3 for a desired number of iterations or 
             until centroids no longer shift a significant amount when updating.
 
@@ -307,7 +313,9 @@ centroids, idx, figs = Kmeans(
     X=np.array(student_data[['Quiz', 'WA']]),
     initial_centroids=np.array(initial_centers),
     max_iters=N,
-    plot_progress=True
+    plot_progress=True,
+    xlabel="Quiz",
+    ylabel="WA"
 )
 with st.expander("Student Performance Clusters: Plots of Iterations"):
     for fig in figs:
@@ -385,7 +393,46 @@ st.markdown("""
             be distinct (different centroids *and* different assignments).
             Typically, data scientists will run the algorithm many, many times
             and choose the clusters which yielded the lowest cost.
+
+            In the above visuals, the initial centroids were randomly chosen,
+            but are the same every time this page is loaded. Below is a different
+            dataset on which we run $K=5$-means algorithm but with initial centroids
+            chosen randomly each time the page is reloaded. See if by refreshing the page
+            you get different clusters!
+
+            (The dataset: rushing and receiving yards by NFL running backs with
+            at least 75 rushing attempts and 30 targets in a season from 2015-2024.)
             """)
+
+ff_rb_2020s = ff_data[(ff_data['FantPos']=='RB') &
+                      (ff_data['Year'] >= 2015) &
+                      (ff_data['Rushing_Att']>=75) &
+                      (ff_data['Receiving_Tgt']>=30)][['Rushing_Yds', 'Receiving_Yds']]
+fig_rb, ax_rb = plt.subplots()
+ax_rb.scatter(ff_rb_2020s['Rushing_Yds'], ff_rb_2020s['Receiving_Yds'])
+ax_rb.set_xlabel("Rushing Yards")
+ax_rb.set_ylabel("Receiving Yards")
+ax_rb.set_title("NFL RB Stats by Season 2015-2024")
+st.pyplot(fig_rb)
+
+K_rb = 5
+N_rb = 100
+
+
+
+initial_centers_rb = [[random.uniform(ff_rb_2020s["Rushing_Yds"].min(), ff_rb_2020s["Rushing_Yds"].max()),
+                    random.uniform(ff_rb_2020s["Receiving_Yds"].min(), ff_rb_2020s["Receiving_Yds"].max())] for _ in range(K_rb)]
+
+centroids_rb, idx_rb, figs_rb = Kmeans(
+    X=np.array(ff_rb_2020s[['Rushing_Yds', 'Receiving_Yds']]),
+    initial_centroids=np.array(initial_centers_rb),
+    max_iters=N_rb,
+    plot_progress=True,
+    xlabel="Rushing Yards",
+    ylabel="Receiving Yards"
+)
+with st.expander("RB Clusters: Final Groupings"):
+    st.pyplot(figs_rb[N_rb-1])
 
 
 st.markdown("---") 
