@@ -439,11 +439,12 @@ st.markdown("---")
 st.markdown("### Looking Forward")
 st.markdown(
     f"""
-Thank you for reading this demo! 
-
-
-In the next demo we will explore a 
-
+Thank you for reading this demo, where we explored the notion of unsupervised learning. In
+particular, we utilized clustering to segment the student population of a class based
+on Quiz and WA scores. We were able to justify using 3 or 6 clusters based on
+domain knowledge/intuition, or the cost function 'elbow'. Finally, we
+made note of the fact that the clusters which result from the algorithm depend on
+the randomly initialized centroids.
 
 If you have any questions or comments, 
 please enter them using the form below.
