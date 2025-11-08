@@ -433,6 +433,9 @@ centroids_rb, idx_rb, figs_rb = Kmeans(
 )
 with st.expander("RB Clusters: Final Groupings"):
     st.pyplot(figs_rb[N_rb-1])
+    st.markdown("Note: If one of the centroids is at $(0,0)$, this is because at" \
+    "some iteration it had no data points assigned to it, and then was placed" \
+    "by default at the origin.")
 
 
 st.markdown("---") 
