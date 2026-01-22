@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 
 st.title("Math 1071: Data Science Demos")
 
-st.text("Navigate to the appropriate demo in the sidebar. Read through the content and utilize the interactive elements. " \
-        "Lastly, remember to complete the associated problem sheet in HuskyCT!")
+st.text("Navigate to the appropriate demo in the sidebar. Read through the content and utilize the interactive elements " \
+        "to get an understanding of the material. Lastly, remember to complete the associated problem sheet in HuskyCT!")
 ROOT = Path(__file__).resolve().parent
 NYSE_DATA_FILE = ROOT / "data" / "NYSE.csv"
 
