@@ -58,6 +58,3 @@ if password == INSTRUCTOR_PASSWORD:
 elif password:
     st.sidebar.error("Incorrect password")
 
-
-st.markdown("#### Other Visuals and Interactives")
-st.write("Will be added over time!")
